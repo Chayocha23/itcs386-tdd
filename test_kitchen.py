@@ -83,3 +83,10 @@ def test_mixed_addition():
     converter = Converter()
     converter.add_rate("oz", "g", 28)
     assert converter.reduce(total, "g") == grams(228)
+    
+#Step A7: Mixed units and conversion rates
+def test_nested_expression():
+    total = grams(200).plus(ounces(1)).times(2)
+    converter = Converter()
+    converter.add_rate("oz", "g", 28)
+    assert converter.reduce(total, "g") == grams(456)
