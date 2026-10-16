@@ -77,3 +77,9 @@ def test_simple_addition_with_different_values():
     total = grams(100).plus(grams(200))
     converter = Converter()
     assert converter.reduce(total, "g") == grams(300)
+    
+def test_mixed_addition():
+    total = grams(200).plus(ounces(1))
+    converter = Converter()
+    converter.add_rate("oz", "g", 28)
+    assert converter.reduce(total, "g") == grams(228)

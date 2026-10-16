@@ -33,9 +33,21 @@ class Sum:
         self.addend = addend
 
 class Converter:
+    def __init__(self):
+        self.rates = {}
+
+    def add_rate(self, from_unit, to_unit, rate):
+        self.rates[(from_unit, to_unit)] = rate
+
+    def rate(self, from_unit, to_unit):
+        if from_unit == to_unit:
+            return 1
+        return self.rates[(from_unit, to_unit)]
+
     def reduce(self, source, to_unit):
-        amount = source.augend.amount + source.addend.amount
-        return Quantity(amount, to_unit)
+        augend_in_target = source.augend.amount * self.rate(source.augend.unit, to_unit)
+        addend_in_target = source.addend.amount * self.rate(source.addend.unit, to_unit)
+        return Quantity(augend_in_target + addend_in_target, to_unit)
 
 def grams(amount):
     return Quantity(amount, "g")
