@@ -21,6 +21,10 @@ class Quantity:
     def plus(self, other):
         return Sum(self, other)
 
+    def reduce(self, converter, to_unit):
+        rate = converter.rate(self.unit, to_unit)
+        return Quantity(self.amount * rate, to_unit)
+
     def __eq__(self, other):
         return self.amount == other.amount and self.unit == other.unit
 
@@ -31,6 +35,18 @@ class Sum:
     def __init__(self, augend, addend):
         self.augend = augend
         self.addend = addend
+
+    def times(self, multiplier):
+        return Sum(self.augend.times(multiplier), self.addend.times(multiplier))
+
+    def plus(self, other):
+        return Sum(self, other)
+
+    def reduce(self, converter, to_unit):
+        reduced_augend = self.augend.reduce(converter, to_unit)
+        reduced_addend = self.addend.reduce(converter, to_unit)
+        return Quantity(reduced_augend.amount + reduced_addend.amount, to_unit)
+
 
 class Converter:
     def __init__(self):
@@ -45,12 +61,12 @@ class Converter:
         return self.rates[(from_unit, to_unit)]
 
     def reduce(self, source, to_unit):
-        augend_in_target = source.augend.amount * self.rate(source.augend.unit, to_unit)
-        addend_in_target = source.addend.amount * self.rate(source.addend.unit, to_unit)
-        return Quantity(augend_in_target + addend_in_target, to_unit)
+        return source.reduce(self, to_unit)
+
 
 def grams(amount):
     return Quantity(amount, "g")
+
 
 def ounces(amount):
     return Quantity(amount, "oz")
