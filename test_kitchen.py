@@ -72,3 +72,8 @@ def test_simple_addition():
     total = grams(200).plus(grams(300))
     converter = Converter()
     assert converter.reduce(total, "g") == grams(500)
+    
+def test_simple_addition_with_different_values():
+    total = grams(100).plus(grams(200))
+    converter = Converter()
+    assert converter.reduce(total, "g") == grams(300)
