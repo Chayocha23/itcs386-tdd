@@ -32,10 +32,10 @@ class Sum:
         self.augend = augend
         self.addend = addend
 
-
 class Converter:
     def reduce(self, source, to_unit):
-        return grams(500)
+        amount = source.augend.amount + source.addend.amount
+        return Quantity(amount, to_unit)
 
 def grams(amount):
     return Quantity(amount, "g")
