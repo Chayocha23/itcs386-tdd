@@ -1,6 +1,7 @@
 import pytest
 from bank import BankAccount, InsufficientFunds
 
+#Step 0.5: Fixtures for fresh test data 
 @pytest.fixture
 def account():
     return BankAccount("alice", balance=100)
@@ -34,3 +35,8 @@ def test_two_withdrawals_in_a_row(account):
     account.withdraw(30)
     account.withdraw(20)
     assert account.balance == 50
+    
+#Step 0.6: Comparing decimals
+def test_interest(account):
+    account.add_interest(0.10)
+    assert account.balance == pytest.approx(110)

@@ -30,5 +30,3 @@ def test_year_zero_is_rejected():
 def test_negative_year_is_rejected():
     with pytest.raises(ValueError, match="1 or later"):
         is_leap(-100)
-
-#Step 0.5: Fixtures for fresh test data
