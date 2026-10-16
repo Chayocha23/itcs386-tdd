@@ -10,9 +10,10 @@
 
 ## After Editing (Green)
 # kitchen.py
+# kitchen.py
 class Quantity:
     def __init__(self, amount):
         self.amount = amount
 
     def times(self, multiplier):
-        self.amount = self.amount * multiplier
+        return Quantity(self.amount * multiplier)
